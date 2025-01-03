@@ -17,7 +17,34 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'book_id' => null,
+            'review' => fake()->paragraph(),
+            'rating' => fake()->numberBetween(1, 5),
+            'created_at' => fake()->dateTimeBetween('-2 years'),
+            'updated_at' => function (array $attr) {
+                return fake()->dateTimeBetween($attr['created_at']);
+            }
         ];
     }
+    public function good()
+    {
+        return $this->state(function (array $attributes) {
+            return ['rating' => fake()->numberBetween(4, 5)];
+        });
+    }
+
+    public function avarage()
+    {
+        return $this->state(function (array $attributes) {
+            return ['rating' => fake()->numberBetween(2, 3)];
+        });
+    }
+
+    public function bad()
+    {
+        return $this->state(function (array $attributes) {
+            return ['rating' => fake()->numberBetween(1, 2)];
+        });
+    }
+
 }
